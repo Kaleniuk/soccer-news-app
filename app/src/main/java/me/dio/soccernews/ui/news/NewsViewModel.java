@@ -1,13 +1,20 @@
 package me.dio.soccernews.ui.news;
 
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
+
+
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.room.Room;
 
 import java.util.List;
 
+import me.dio.soccernews.data.local.AppDatabase;
 import me.dio.soccernews.data.remote.SoccerNewsApi;
 import me.dio.soccernews.domain.News;
 import retrofit2.Call;
@@ -16,10 +23,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class NewsViewModel extends ViewModel {
 
     private final MutableLiveData<List<News>> news = new MutableLiveData<>();
     private final SoccerNewsApi api;
+
 
     public NewsViewModel() {
 //       this.news = new MutableLiveData<>();
@@ -36,6 +45,9 @@ public class NewsViewModel extends ViewModel {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         api = retrofit.create(SoccerNewsApi.class);
+
+
+
         this.findNews();
     }
 
