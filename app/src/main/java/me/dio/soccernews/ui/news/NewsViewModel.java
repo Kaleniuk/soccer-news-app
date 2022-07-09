@@ -1,5 +1,6 @@
 package me.dio.soccernews.ui.news;
 
+import androidx.lifecycle.Lifecycle;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
@@ -26,7 +27,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsViewModel extends ViewModel {
 
+    public enum State{
+        DOING, DONE, ERROR;
+    }
+
+
     private final MutableLiveData<List<News>> news = new MutableLiveData<>();
+    private final MutableLiveData<State> state = new MutableLiveData<>();
+
     private final SoccerNewsApi api;
 
 
@@ -53,15 +61,17 @@ public class NewsViewModel extends ViewModel {
 
 
     private void findNews() {
+        state.setValue(State.DOING);
         api.getNews().enqueue(new Callback<List<News>>() {
             @Override
             public void onResponse(Call<List<News>> call, Response<List<News>> response) {
 
                 if (response.isSuccessful()){
                     news.setValue(response.body());
+                    state.setValue(State.DONE);
                 }else{
 
-
+                    state.setValue(State.ERROR);
                     //TODO Tratamento de erros
                 }
 
@@ -77,6 +87,9 @@ public class NewsViewModel extends ViewModel {
     }
 
     public LiveData<List<News>> getNews() {
-        return news;
+        return this.news;
+    }
+
+    public LiveData<State> getState() { return this.state;
     }
 }

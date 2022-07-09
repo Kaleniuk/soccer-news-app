@@ -34,7 +34,7 @@ public class NewsFragment extends Fragment {
         View root = binding.getRoot();
 
        // final TextView textView = binding.textNews;
-        db = Room.databaseBuilder(getContext(),AppDatabase.class, "soccer-news").allowMainThreadQueries().build();
+     //   db = Room.databaseBuilder(getContext(),AppDatabase.class, "soccer-news").allowMainThreadQueries().build();
 
         binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -58,6 +58,22 @@ public class NewsFragment extends Fragment {
         //        textView.setText(s);
        //     }
       //  });
+
+        newsViewModel.getState().observe(getViewLifecycleOwner(), state ->{
+            switch (state) {
+                case DOING:
+                    //TODO: Iniciar SwipeRefreshLayout (loading).
+                    break;
+                case DONE:
+                    //TODO: Finalizar SwipeRefreshLayout (loading).
+                    break;
+                case ERROR:
+                    //TODO: Finalizar SwipeRefreshLayout (loading).
+                    //TODO: Mostrar um erro genérico.
+            }
+        });
+
+
         return root;
     }
 
