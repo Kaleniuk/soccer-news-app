@@ -69,7 +69,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         // Implementações da função de favoritar.
         holder.binding.ivFavorite.setOnClickListener(view -> {
             news.favorite = !news.favorite;
-            this.favoriteListener.onFavorite(news);
+            favoriteListener.onFavorite(news);
             notifyItemChanged(position);
         });
 
